@@ -1,12 +1,13 @@
 # 🚀 Cursor Reset Trial
 
+[![Release](https://img.shields.io/github/v/release/AkobArm/Cursor_free)](https://github.com/AkobArm/Cursor_free/releases/latest)
 [![License](https://img.shields.io/github/license/AkobArm/Cursor_free)](LICENSE)
 
 
 [English](#english) | [中文](#chinese)
 
 <div align="center">
-  <img src="https://camo.githubusercontent.com/496f1515f3e17ce1afe69703f2f708409cf48325a64b654e1788d9e2ea8c17c6/68747470733a2f2f61692d637572736f722e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032342f30392f6c6f676f2d637572736f722d61692d706e672e77656270" alt="Cursor Free" width="600">
+  <img src="https://camo.githubusercontent.com/496f1515f3e17ce1afe69703f2f708409cf48325a64b654e1788d9e2ea8c17c6/68747470733a2f2f61692d637572736f722e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032342f30392f6c6f676f2d637572736f722d61692d706e672e77656270" alt="Cursor Free" width="120">
 </div>
 
 ## 🌟 English
