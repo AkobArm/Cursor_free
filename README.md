@@ -29,6 +29,10 @@ A powerful GUI tool that resets Cursor Editor device identifiers when you encoun
 - 🖥️ Cross-platform compatibility
 - 🛡️ Elevated privileges handling
 
+<div align="center">
+    <img src=gui.png alt="Cursor Free" width="600">
+</div>
+
 ### 💻 System Support
 
 - Windows ✅ (x64)
