@@ -2,9 +2,11 @@
 
 [![Release](https://img.shields.io/github/v/release/AkobArm/Cursor_free)](https://github.com/AkobArm/Cursor_free/releases/latest)
 [![License](https://img.shields.io/github/license/AkobArm/Cursor_free)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/AkobArm/Cursor_free?style=flat-square&logo=github)](https://github.com/AkobArm/Cursor_free/stargazers)
 
 
-[English](#english) | [中文](#chinese)
+
+[English](#english) | [中文](#chinese) | [Русский](#russian)
 
 <div align="center">
   <img src="https://camo.githubusercontent.com/496f1515f3e17ce1afe69703f2f708409cf48325a64b654e1788d9e2ea8c17c6/68747470733a2f2f61692d637572736f722e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032342f30392f6c6f676f2d637572736f722d61692d706e672e77656270" alt="Cursor Free" width="120">
@@ -26,9 +28,10 @@ A powerful GUI tool that resets Cursor Editor device identifiers when you encoun
 - 🔄 Automatic process management
 - 💾 Automatic configuration backup
 - 🔑 New device ID generation
-- 🌏 Multi-language support (English & Chinese)
+- 🌏 Multi-language support (English, Chinese & Russian)
 - 🖥️ Cross-platform compatibility
 - 🛡️ Elevated privileges handling
+- 🎨 Modern centered UI design
 
 <div align="center">
     <img src=gui.png alt="Cursor Free" width="600">
@@ -94,6 +97,14 @@ The tool manages Cursor's configuration at:
 - 📝 Atomic file operations
 - ⚠️ Error handling and rollback
 
+### 📦 Latest Updates (v0.0.2)
+
+- ✨ Added Russian language support
+- 🎨 Improved UI layout with centered buttons
+- 🔧 Enhanced macOS permissions handling
+- 💅 Refined language selection interface
+- 🚀 Improved startup experience with language selection dialog
+
 ## 🌏 Chinese
 
 ### 📝 描述
@@ -105,6 +116,27 @@ The tool manages Cursor's configuration at:
 > to prevent abuse. Please let us know if you believe
 > this is a mistake.
 [... Chinese version continues with same structure as English ...]
+
+## 🌏 Russian
+
+### 📝 Описание
+
+Мощный инструмент с графическим интерфейсом для сброса идентификаторов устройства редактора Cursor, когда вы сталкиваетесь с сообщением:
+
+> Too many free trial accounts used on this machine.
+> Please upgrade to pro. We have this limit in place
+> to prevent abuse. Please let us know if you believe
+> this is a mistake.
+
+### 💫 Возможности
+
+- 🖥️ Удобный графический интерфейс
+- 🔄 Автоматическое управление процессами
+- 💾 Автоматическое резервное копирование
+- 🔑 Генерация новых ID устройства
+- 🌏 Многоязычная поддержка
+- 🖥️ Кроссплатформенность
+- 🛡️ Обработка прав администратора
 
 ## License
 
