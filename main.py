@@ -1,6 +1,5 @@
 import ctypes
 import json
-import locale
 import os
 import platform
 import shutil
@@ -241,7 +240,7 @@ class CursorResetterGUI:
         self.root.title(self.messages.get('title'))
         self.root.geometry("600x400")
         self.root.resizable(False, False)
-        
+
         self.show_language_selection()
 
     def show_language_selection(self):
@@ -273,7 +272,7 @@ class CursorResetterGUI:
                 text=lang_name,
                 command=lambda code=lang_code: self.select_language(code)
             )
-            btn.grid(row=i+1, column=0, pady=5, padx=20, sticky="ew")
+            btn.grid(row=i + 1, column=0, pady=5, padx=20, sticky="ew")
 
     def select_language(self, lang: str):
         """Handle language selection"""
@@ -287,7 +286,7 @@ class CursorResetterGUI:
             widget.destroy()
 
         self.root.title(self.messages.get('title'))
-        
+
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -308,21 +307,25 @@ class CursorResetterGUI:
         )
         desc_label.grid(row=1, column=0, pady=10)
 
+        button_frame = ttk.Frame(main_frame)
+        button_frame.grid(row=2, column=0, pady=10)
+
+        button_frame.grid_columnconfigure(0, weight=1)
+        button_frame.grid_columnconfigure(1, weight=1)
+
         self.reset_button = ttk.Button(
-            main_frame,
+            button_frame,
             text=self.messages.get('reset_button'),
             command=self.reset_cursor
         )
-        self.reset_button.grid(row=2, column=0, pady=10)
-
+        self.reset_button.grid(row=0, column=0, padx=5)
 
         self.lang_button = ttk.Button(
-            main_frame,
+            button_frame,
             text=self.messages.get('language_select'),
             command=self.show_language_selection
         )
-        self.lang_button.grid(row=2, column=1, pady=10, padx=5)
-
+        self.lang_button.grid(row=0, column=1, padx=5)
 
         log_frame = ttk.LabelFrame(main_frame, text="Log", padding="5")
         log_frame.grid(row=3, column=0, columnspan=2, sticky="nsew", pady=10)
@@ -334,7 +337,6 @@ class CursorResetterGUI:
             wrap=tk.WORD
         )
         self.log_text.pack(expand=True, fill=tk.BOTH)
-
 
         self.status_var = tk.StringVar(value=self.messages.get('ready'))
         status_bar = ttk.Label(
