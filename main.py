@@ -38,7 +38,10 @@ Please ensure:
             'error_download': "Failed to download",
             'error_permission': "Permission denied",
             'error_unsupported_os': "Unsupported operating system",
-            'error_process_close': "Failed to close Cursor processes"
+            'error_process_close': "Failed to close Cursor processes",
+            'language_select': "Select Language",
+            'ready': "Ready",
+            'reset_button': "Reset"
         }
 
         self.CN_MESSAGES = {
@@ -62,11 +65,51 @@ Please ensure:
             'error_download': "下载失败",
             'error_permission': "权限被拒绝",
             'error_unsupported_os': "不支持的操作系统",
-            'error_process_close': "无法关闭Cursor进程"
+            'error_process_close': "无法关闭Cursor进程",
+            'language_select': "选择语言",
+            'ready': "就绪",
+            'reset_button': "重置"
         }
 
-        self.current_language = 'en' if 'en' in locale.getlocale()[0].lower() else 'cn'
-        self.messages = self.EN_MESSAGES if self.current_language == 'en' else self.CN_MESSAGES
+        self.RU_MESSAGES = {
+            'title': "Инструмент сброса Cursor",
+            'starting': "Начало установки...",
+            'os_detected': "Обнаружена ОС:",
+            'downloading': "Загрузка последней версии...",
+            'installing': "Установка...",
+            'cleaning': "Очистка...",
+            'success': "Операция успешно завершена!",
+            'checking_processes': "Проверка запущенных процессов Cursor...",
+            'found_processes': "Обнаружены запущенные процессы Cursor. Попытка закрытия...",
+            'closed_processes': "Все процессы Cursor успешно закрыты",
+            'backup_created': "Резервная копия создана в:",
+            'need_root': "Для этой операции требуются права администратора",
+            'description': """Этот инструмент сбрасывает идентификаторы устройства редактора Cursor.
+Пожалуйста, убедитесь что:
+1. Cursor полностью закрыт
+2. Важные данные сохранены
+3. У вас есть необходимые права доступа""",
+            'error_download': "Ошибка загрузки",
+            'error_permission': "Отказано в доступе",
+            'error_unsupported_os': "Неподдерживаемая операционная система",
+            'error_process_close': "Не удалось закрыть процессы Cursor",
+            'language_select': "Выберите язык",
+            'ready': "Готово",
+            'reset_button': "Сбросить"
+        }
+
+        self.current_language = 'en'
+        self.messages = self.EN_MESSAGES
+
+    def set_language(self, lang: str):
+        """Set the current language"""
+        self.current_language = lang
+        if lang == 'en':
+            self.messages = self.EN_MESSAGES
+        elif lang == 'cn':
+            self.messages = self.CN_MESSAGES
+        elif lang == 'ru':
+            self.messages = self.RU_MESSAGES
 
     def get(self, key: str) -> str:
         return self.messages.get(key, key)
@@ -102,17 +145,26 @@ class CursorResetter:
 
     def request_root_privileges(self):
         """Request root/admin privileges"""
-        if platform.system().lower() != "windows":
+        if platform.system().lower() == "darwin":
             if not self.check_root_privileges():
+                script_path = os.path.abspath(sys.argv[0])
+                command = f"""osascript -e 'do shell script "python3 \\"{script_path}\\"" with administrator privileges'"""
                 try:
-                    subprocess.run(['sudo', sys.executable] + sys.argv, check=True)
+                    subprocess.run(command, shell=True, check=True)
                     sys.exit(0)
                 except subprocess.CalledProcessError:
                     raise PermissionError(self.messages.get('error_permission'))
-        else:
+        elif platform.system().lower() == "windows":
             if not self.check_root_privileges():
                 ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
                 sys.exit(0)
+        else:
+            if not self.check_root_privileges():
+                try:
+                    subprocess.run(['pkexec', sys.executable] + sys.argv, check=True)
+                    sys.exit(0)
+                except subprocess.CalledProcessError:
+                    raise PermissionError(self.messages.get('error_permission'))
 
     def close_cursor_processes(self) -> bool:
         """Close all running Cursor processes"""
@@ -189,12 +241,53 @@ class CursorResetterGUI:
         self.root.title(self.messages.get('title'))
         self.root.geometry("600x400")
         self.root.resizable(False, False)
+        
+        self.show_language_selection()
 
+    def show_language_selection(self):
+        """Show language selection dialog"""
+        self.lang_window = tk.Toplevel(self.root)
+        self.lang_window.title(self.messages.get('language_select'))
+        self.lang_window.geometry("300x200")
+        self.lang_window.transient(self.root)
+        self.lang_window.grab_set()
+
+        frame = ttk.Frame(self.lang_window, padding="20")
+        frame.grid(row=0, column=0, sticky="nsew")
+
+        ttk.Label(
+            frame,
+            text=self.messages.get('language_select'),
+            font=('Arial', 12, 'bold')
+        ).grid(row=0, column=0, pady=10)
+
+        languages = [
+            ("English", 'en'),
+            ("中文", 'cn'),
+            ("Русский", 'ru')
+        ]
+
+        for i, (lang_name, lang_code) in enumerate(languages):
+            btn = ttk.Button(
+                frame,
+                text=lang_name,
+                command=lambda code=lang_code: self.select_language(code)
+            )
+            btn.grid(row=i+1, column=0, pady=5, padx=20, sticky="ew")
+
+    def select_language(self, lang: str):
+        """Handle language selection"""
+        self.messages.set_language(lang)
+        self.lang_window.destroy()
         self.setup_ui()
-        self.resetter = CursorResetter(self.log, self.messages)
 
     def setup_ui(self):
         """Setup GUI interface"""
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        self.root.title(self.messages.get('title'))
+        
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -215,17 +308,24 @@ class CursorResetterGUI:
         )
         desc_label.grid(row=1, column=0, pady=10)
 
-        # Reset button
         self.reset_button = ttk.Button(
             main_frame,
-            text="Reset",
+            text=self.messages.get('reset_button'),
             command=self.reset_cursor
         )
         self.reset_button.grid(row=2, column=0, pady=10)
 
-        # Log area
+
+        self.lang_button = ttk.Button(
+            main_frame,
+            text=self.messages.get('language_select'),
+            command=self.show_language_selection
+        )
+        self.lang_button.grid(row=2, column=1, pady=10, padx=5)
+
+
         log_frame = ttk.LabelFrame(main_frame, text="Log", padding="5")
-        log_frame.grid(row=3, column=0, sticky="nsew", pady=10)
+        log_frame.grid(row=3, column=0, columnspan=2, sticky="nsew", pady=10)
 
         self.log_text = ScrolledText(
             log_frame,
@@ -235,14 +335,14 @@ class CursorResetterGUI:
         )
         self.log_text.pack(expand=True, fill=tk.BOTH)
 
-        # Status bar
-        self.status_var = tk.StringVar(value="Ready")
+
+        self.status_var = tk.StringVar(value=self.messages.get('ready'))
         status_bar = ttk.Label(
             main_frame,
             textvariable=self.status_var,
             relief=tk.SUNKEN
         )
-        status_bar.grid(row=4, column=0, sticky="ew", pady=5)
+        status_bar.grid(row=4, column=0, columnspan=2, sticky="ew", pady=5)
 
     def log(self, message: str):
         """Add log message"""
