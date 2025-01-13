@@ -241,6 +241,8 @@ class CursorResetterGUI:
         self.root.geometry("600x400")
         self.root.resizable(False, False)
 
+        self.resetter = CursorResetter(log_func=self.log, messages=self.messages.messages)
+
         self.show_language_selection()
 
     def show_language_selection(self):
@@ -389,7 +391,7 @@ class CursorResetterGUI:
 
 def main():
     root = tk.Tk()
-    app = CursorResetterGUI(root)
+    CursorResetterGUI(root)
     root.mainloop()
 
 
